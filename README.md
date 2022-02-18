@@ -12,6 +12,8 @@ At the start of the application, each word is given a raw score based on the cum
 
 - "ERASE": 30137 Points
 
+The words with the highest scores are the ones most likely to be the answer based on the current information.
+
 Beginning with a full list of possible words, the application attempts to identify the correct answer based on the following information provided by each guess:
 
 - Which letters are part of the correct answer
