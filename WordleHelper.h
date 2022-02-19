@@ -21,6 +21,8 @@ private:
 
 	int _dictionarySize = 0;
 
+	const int _defaultListSize = 10;
+
 	static bool tScoreCompare(const std::string &a, const std::string &b);
 
 	void _scoreSort(std::vector<std::string> &v);

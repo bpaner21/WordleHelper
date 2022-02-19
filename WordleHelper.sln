@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE097B1F-E3DE-42D0-A421-6674356E9429}"
 	ProjectSection(SolutionItems) = preProject
 		Double Words.txt = Double Words.txt
+		README.md = README.md
 		Wordle List.txt = Wordle List.txt
 		Words.txt = Words.txt
 	EndProjectSection

@@ -39,9 +39,9 @@ WordleHelper::WordleHelper(std::string fileName) : _fL(new FileLoader(fileName))
 
 	std::cout << "\nWords Scored and Weighed\n";
 
-	std::cout << "\n20 Highest Scoring Words:\n";
+	std::cout << "\n" << _defaultListSize << " Highest Scoring Words:\n";
 
-	for (int i = 0; i < 20; ++i) 
+	for (int i = 0; i < _defaultListSize; ++i)
 	{
 		//std::cout << i << ". " << _words[i] << "\n";
 
@@ -132,7 +132,7 @@ void WordleHelper::remove(const std::string &incorrectLetters)
 
 	_guess = temp;
 
-	int display = _guess.size() >= 20 ? 20 : _guess.size();
+	int display = _guess.size() >= _defaultListSize ? _defaultListSize : _guess.size();
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing \"" << incorrectLetters << "\":\n";
 
@@ -184,7 +184,7 @@ void WordleHelper::right(const std::string &correctLetters)
 
 	_guess = temp;
 
-	int display = _guess.size() >= 20 ? 20 : _guess.size();
+	int display = _guess.size() >= _defaultListSize ? _defaultListSize : _guess.size();
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words without \"" << correctLetters << "\":\n";
 
@@ -228,7 +228,7 @@ void WordleHelper::removeAt(char letter, int position)
 
 	_guess = temp;
 
-	int display = _guess.size() >= 20 ? 20 : _guess.size();
+	int display = _guess.size() >= _defaultListSize ? _defaultListSize : _guess.size();
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words with \'" << letter << "\' at Position " << position << ":\n";
 
@@ -272,7 +272,7 @@ void WordleHelper::rightAt(char letter, int position)
 
 	_guess = temp;
 
-	int display = _guess.size() >= 20 ? 20 : _guess.size();
+	int display = _guess.size() >= _defaultListSize ? _defaultListSize : _guess.size();
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words without \'" << letter << "\' at Position " << position << ":\n";
 
