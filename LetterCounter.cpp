@@ -39,7 +39,7 @@ void LetterCounter::parse(std::vector<ScoredWord> &wordVector)
 	}
 
 	// count letters
-	for (int k = 0; k < wordVector.size(); ++k) 
+	for (int k = 0; k < (int)wordVector.size(); ++k) 
 	{
 		for (int l = 0; l < 5; ++l)
 		{

@@ -26,6 +26,8 @@ private:
 
 	void _scoreAndSort(std::vector<ScoredWord> &v);
 
+	void _displayRemaining(int displaySize);
+
 	// loads input file and writes words to string vector 
 	// runs once to set up letter counter and word tracker
 	FileLoader *_fL = nullptr; 

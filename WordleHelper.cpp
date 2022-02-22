@@ -51,6 +51,22 @@ void WordleHelper::_scoreAndSort(std::vector<ScoredWord> &v)
 	return;
 }
 
+void WordleHelper::_displayRemaining(int displaySize)
+{
+	for (int i = 0, j = 0; i < (int)_words.size() && j < displaySize; ++i)
+	{
+		if (_words[i].validGuess)
+		{
+			std::cout << std::fixed << std::setw(2) << std::setfill('0');
+			std::cout << (j + 1) << ". " << _words[i].word << ": " << _words[i].score << " points\n";
+
+			++j;
+		}
+	}
+
+	std::cout << "\n" << _numGuess << " words remaining.\n";
+}
+
 void WordleHelper::input()
 {
 	std::string input, temp;
@@ -98,7 +114,7 @@ void WordleHelper::remove(const std::string &incorrectLetters)
 	{
 		for (char ch : incorrectLetters)
 		{
-			if (w.word.find(ch) != std::string::npos)
+			if (w.validGuess && w.word.find(ch) != std::string::npos)
 			{
 				w.validGuess = false;
 
@@ -113,20 +129,7 @@ void WordleHelper::remove(const std::string &incorrectLetters)
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing \"" << incorrectLetters << "\":\n";
 
-	int i = 0;
-
-	for (int i = 0, j = 0; i < _words.size() && j < display; ++i)
-	{
-		if (_words[i].validGuess)
-		{
-			std::cout << std::fixed << std::setw(2) << std::setfill('0');
-			std::cout << (i + 1) << ". " << _words[i].word << ": " << _words[i].score << " points\n";
-
-			++j;
-		}
-	}
-
-	std::cout << "\n" << _numGuess << " words remaining.\n";
+	_displayRemaining(display);
 
 	return;
 }
@@ -138,35 +141,22 @@ void WordleHelper::right(const std::string &correctLetters)
 	{
 		for (char ch : correctLetters)
 		{
-			if (s.word.find(ch) == std::string::npos)
+			if (s.validGuess && s.word.find(ch) == std::string::npos)
 			{
 				s.validGuess = false;
 
 				--_numGuess;
-			}
 
-			if (!s.validGuess) { break; }
+				break;
+			}
 		}
 	}
-
-
 
 	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words without \"" << correctLetters << "\":\n";
 
-	for (int i = 0, j = 0; i < _words.size() && j < display; ++i)
-	{
-		if (_words[i].validGuess)
-		{
-			std::cout << std::fixed << std::setw(2) << std::setfill('0');
-			std::cout << (i + 1) << ". " << _words[i].word << ": " << _words[i].score << " points\n";
-
-			++j;
-		}
-	}
-
-	std::cout << "\n" << _numGuess << " words remaining.\n";
+	_displayRemaining(display);
 
 	return;
 }
@@ -176,7 +166,7 @@ void WordleHelper::removeAt(char letter, int position)
 {
 	for (ScoredWord &s : _words)
 	{
-		if (s.word[position] == letter) 
+		if (s.validGuess && s.word[position] == letter)
 		{ 
 			s.validGuess = false;
 
@@ -188,18 +178,7 @@ void WordleHelper::removeAt(char letter, int position)
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words with \'" << letter << "\' at Position " << position << ":\n";
 
-	for (int i = 0, j = 0; i < _words.size() && j < display; ++i)
-	{
-		if (_words[i].validGuess)
-		{
-			std::cout << std::fixed << std::setw(2) << std::setfill('0');
-			std::cout << (i + 1) << ". " << _words[i].word << ": " << _words[i].score << " points\n";
-
-			++j;
-		}
-	}
-
-	std::cout << "\n" << _numGuess << " words remaining.\n";
+	_displayRemaining(display);
 
 	return;
 }
@@ -209,7 +188,7 @@ void WordleHelper::rightAt(char letter, int position)
 {
 	for (ScoredWord &s : _words)
 	{
-		if (s.word[position] != letter) 
+		if (s.validGuess && s.word[position] != letter)
 		{ 
 			s.validGuess = false; 
 
@@ -221,18 +200,7 @@ void WordleHelper::rightAt(char letter, int position)
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words without \'" << letter << "\' at Position " << position << ":\n";
 
-	for (int i = 0, j = 0; i < _words.size() && j < display; ++i)
-	{
-		if (_words[i].validGuess)
-		{
-			std::cout << std::fixed << std::setw(2) << std::setfill('0');
-			std::cout << (i + 1) << ". " << _words[i].word << ": " << _words[i].score << " points\n";
-
-			++j;
-		}
-	}
-
-	std::cout << "\n" << _numGuess << " words remaining.\n";
+	_displayRemaining(display);
 
 	return;
 }
