@@ -38,11 +38,11 @@ WordleHelper::WordleHelper(std::string fileName) : _fL(new FileLoader(fileName))
 
 void WordleHelper::_scoreAndSort(std::vector<ScoredWord> &v)
 {
-	for (int i = 0; i < v.size(); ++i)
+	for (ScoredWord &s : v)
 	{
-		for (int j = 0; j < v[0].word.size(); ++j)
+		for (char c : s.word)
 		{
-			v[i].score += _tScore[v[i].word[j] - 'A'];
+			s.score += _tScore[c - 'A'];
 		}
 	}
 
@@ -81,7 +81,7 @@ void WordleHelper::input()
 // reset guess list
 void WordleHelper::reset()
 {
-	for (ScoredWord s : _words)
+	for (ScoredWord &s : _words)
 	{
 		s.validGuess = true;
 	}
@@ -94,7 +94,7 @@ void WordleHelper::reset()
 // remove words with incorrect letters from guess list
 void WordleHelper::remove(const std::string &incorrectLetters)
 {
-	for (ScoredWord w : _words)
+	for (ScoredWord &w : _words)
 	{
 		for (char ch : incorrectLetters)
 		{
@@ -134,7 +134,7 @@ void WordleHelper::remove(const std::string &incorrectLetters)
 // remove words without correct letters from guess list
 void WordleHelper::right(const std::string &correctLetters)
 {
-	for (ScoredWord s : _words)
+	for (ScoredWord &s : _words)
 	{
 		for (char ch : correctLetters)
 		{
@@ -148,6 +148,8 @@ void WordleHelper::right(const std::string &correctLetters)
 			if (!s.validGuess) { break; }
 		}
 	}
+
+
 
 	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
 
@@ -172,7 +174,7 @@ void WordleHelper::right(const std::string &correctLetters)
 // remove words with correct letter at incorrect position
 void WordleHelper::removeAt(char letter, int position)
 {
-	for (ScoredWord s : _words)
+	for (ScoredWord &s : _words)
 	{
 		if (s.word[position] == letter) 
 		{ 
@@ -205,7 +207,7 @@ void WordleHelper::removeAt(char letter, int position)
 // remove words without correct letter at correct position
 void WordleHelper::rightAt(char letter, int position)
 {
-	for (ScoredWord s : _words)
+	for (ScoredWord &s : _words)
 	{
 		if (s.word[position] != letter) 
 		{ 

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <sstream>
 
+#include "ScoredWord.h"
 #include "FileLoader.h"
 #include "LetterCounter.h"
 
