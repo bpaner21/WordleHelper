@@ -7,7 +7,7 @@ int LetterCounter::_defaultLetterCount = 5;
 
 LetterCounter::LetterCounter() {}
 
-LetterCounter::LetterCounter(std::vector<std::string> &wordVector)
+LetterCounter::LetterCounter(std::vector<ScoredWord> &wordVector)
 {
 	parse(wordVector);
 }
@@ -15,7 +15,7 @@ LetterCounter::LetterCounter(std::vector<std::string> &wordVector)
 //---
 // Parse new lists of words
 
-void LetterCounter::parse(std::vector<std::string> &wordVector)
+void LetterCounter::parse(std::vector<ScoredWord> &wordVector)
 {
 	if (_parsed) 
 	{ 
@@ -43,7 +43,7 @@ void LetterCounter::parse(std::vector<std::string> &wordVector)
 	{
 		for (int l = 0; l < 5; ++l)
 		{
-			int letter = wordVector[k][l] - 'A';
+			int letter = wordVector[k].word[l] - 'A';
 
 			// total letter count
 			++_tlc[letter].first;
@@ -98,7 +98,7 @@ void LetterCounter::parse(std::vector<std::string> &wordVector)
 	return;
 }
 
-void LetterCounter::parseNewText(std::vector<std::string> &newVector)
+void LetterCounter::parseNewText(std::vector<ScoredWord> &newVector)
 {
 	_parsed = false;
 

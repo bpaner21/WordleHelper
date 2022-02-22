@@ -5,17 +5,9 @@
 
 std::array<int, 26> WordleHelper::_tScore { 0 };
 
-bool WordleHelper::tScoreCompare(const std::string &a, const std::string &b)
+bool WordleHelper::tScoreCompare(const ScoredWord &a, const ScoredWord &b)
 {
-	int sA = 0, sB = 0;
-
-	for (int i = 0; i < a.size(); ++i)
-	{
-		sA += _tScore[a[i] - 'A'];
-		sB += _tScore[b[i] - 'A'];
-	}
-
-	return sA > sB;
+	return a.score > b.score;
 }
 
 //---
@@ -33,9 +25,11 @@ WordleHelper::WordleHelper(std::string fileName) : _fL(new FileLoader(fileName))
 
 	_lC->setTScore(_tScore);
 
-	_scoreSort(_words);
+	_scoreAndSort(_words);
 
-	_guess = _words;
+	_dictionarySize = _words.size();
+
+	_numGuess = _words.size();
 
 	std::cout << "\nWords Scored and Weighed\n";
 
@@ -43,18 +37,8 @@ WordleHelper::WordleHelper(std::string fileName) : _fL(new FileLoader(fileName))
 
 	for (int i = 0; i < _defaultListSize; ++i)
 	{
-		//std::cout << i << ". " << _words[i] << "\n";
-
-		//*
-		int score = 0;
-
-		for (int j = 0; j < 5; ++j)
-		{
-			score += _tScore[_words[i][j] - 'A'];
-		}
-
 		std::cout << std::fixed << std::setw(2) << std::setfill('0');
-		std::cout << (i + 1) << ". " << _words[i] << ": " << score << " points\n"; 
+		std::cout << (i + 1) << ". " << _words[i].word << ": " << _words[i].score << " points\n"; 
 		//*/
 	}
 }
@@ -62,8 +46,16 @@ WordleHelper::WordleHelper(std::string fileName) : _fL(new FileLoader(fileName))
 //--
 // Find answer
 
-void WordleHelper::_scoreSort(std::vector<std::string>& v)
+void WordleHelper::_scoreAndSort(std::vector<ScoredWord>& v)
 {
+	for (ScoredWord s : v)
+	{
+		for (char c : s.word)
+		{
+			s.score += _tScore[c - 'A'];
+		}
+	}
+
 	std::sort(v.begin(), v.end(), tScoreCompare);
 
 	return;
@@ -99,9 +91,12 @@ void WordleHelper::input()
 // reset guess list
 void WordleHelper::reset()
 {
-	_guess.clear();
+	for (ScoredWord s : _words)
+	{
+		s.validGuess = true;
+	}
 
-	_guess = _words;
+	_numGuess = _dictionarySize;
 
 	return;
 }
@@ -115,35 +110,33 @@ void WordleHelper::remove(const std::string &incorrectLetters)
 		{
 			if (w.word.find(ch) != std::string::npos)
 			{
-				w.correct = false;
+				w.validGuess = false;
+
+				--_numGuess;
 
 				break;
 			}
 		}
 	}
 
-	int display = _guess.size() >= _defaultListSize ? _defaultListSize : _guess.size();
+	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing \"" << incorrectLetters << "\":\n";
 
-	for (int i = 0; i < display; ++i)
+	int i = 0;
+
+	for (int i = 0, j = 0; i < _words.size() && j < display; ++i)
 	{
-		//std::cout << i << ". " << _words[i] << "\n";
-
-		//*
-		int score = 0;
-
-		for (int j = 0; j < 5; ++j)
+		if (_words[i].validGuess)
 		{
-			score += _tScore[_guess[i][j] - 'A'];
-		}
+			std::cout << std::fixed << std::setw(2) << std::setfill('0');
+			std::cout << (i + 1) << ". " << _words[i].word << ": " << _words[i].score << " points\n";
 
-		std::cout << std::fixed << std::setw(2) << std::setfill('0');
-		std::cout << (i + 1) << ". " << _guess[i] << ": " << score << " points\n";
-		//*/
+			++j;
+		}
 	}
 
-	std::cout << "\n" << _guess.size() << " words remaining.\n";
+	std::cout << "\n" << _numGuess << " words remaining.\n";
 
 	return;
 }

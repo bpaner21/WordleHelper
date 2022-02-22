@@ -8,7 +8,7 @@ struct ScoredWord
 
 	int score = 0;			// the score of the word
 
-	bool correct = true;	// is the word possibly a correct answer
+	bool validGuess = true;	// is the word possibly a correct answer
 
 	ScoredWord(std::string w) : word(w) {}
 };

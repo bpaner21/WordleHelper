@@ -35,7 +35,7 @@ protected:
 	LetterCounter();
 
 public:
-	LetterCounter(std::vector<std::string>& vectorName);
+	LetterCounter(std::vector<ScoredWord>& vectorName);
 
 	//---
 
@@ -47,9 +47,9 @@ public:
 	 
 	//---
 
-	void parse(std::vector<std::string> &wordVector);
+	void parse(std::vector<ScoredWord> &wordVector);
 
-	void parseNewText(std::vector<std::string> &newVector);
+	void parseNewText(std::vector<ScoredWord> &newVector);
 
 	//---
 

@@ -23,9 +23,9 @@ private:
 
 	const int _defaultListSize = 10;
 
-	static bool tScoreCompare(const std::string &a, const std::string &b);
+	static bool tScoreCompare(const ScoredWord &a, const ScoredWord &b);
 
-	void _scoreSort(std::vector<std::string> &v);
+	void _scoreAndSort(std::vector<ScoredWord> &v);
 
 	// loads input file and writes words to string vector 
 	// runs once to set up letter counter and word tracker
