@@ -1,6 +1,13 @@
 #include "WordleHelper.h"
 
 //---
+// Static Members
+
+int WordleHelper::_wordLength = 5;
+
+int WordleHelper::_listSize = 7;
+
+//---
 // Constructors
 
 WordleHelper::WordleHelper() {}
@@ -11,7 +18,7 @@ WordleHelper::WordleHelper(std::string fileName) : _fL(new FileLoader(fileName))
 	_fL->wordsFromFile(_words);
 
 	// parse words and count letters
-	_lC = new LetterCounter(_words);
+	_lC = new LetterCounter(_words, _wordLength);
 
 	_lC->setTScore(_tScore);
 
@@ -23,9 +30,9 @@ WordleHelper::WordleHelper(std::string fileName) : _fL(new FileLoader(fileName))
 
 	std::cout << "\nWords Scored and Weighed\n";
 
-	std::cout << "\n" << _defaultListSize << " Highest Scoring Words:\n";
+	std::cout << "\n" << _listSize << " Highest Scoring Words:\n";
 
-	for (int i = 0; i < _defaultListSize; ++i)
+	for (int i = 0; i < _listSize; ++i)
 	{
 		std::cout << std::fixed << std::setw(2) << std::setfill('0');
 		std::cout << (i + 1) << ". " << _words[i].word << ": " << _words[i].score << " points\n"; 
@@ -125,7 +132,7 @@ void WordleHelper::remove(const std::string &incorrectLetters)
 		}
 	}
 
-	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
+	int display = _numGuess >= _listSize ? _listSize : _numGuess;
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words with the letters \"" << incorrectLetters << "\":\n";
 
@@ -152,7 +159,7 @@ void WordleHelper::right(const std::string &correctLetters)
 		}
 	}
 
-	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
+	int display = _numGuess >= _listSize ? _listSize : _numGuess;
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words without the letters \"" << correctLetters << "\":\n";
 
@@ -174,7 +181,7 @@ void WordleHelper::removeAt(char letter, int position)
 		}
 	}
 
-	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
+	int display = _numGuess >= _listSize ? _listSize : _numGuess;
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words with \'" << letter << "\' as the " << _place[position] << " letter:\n";
 
@@ -196,7 +203,7 @@ void WordleHelper::rightAt(char letter, int position)
 		}
 	}
 
-	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
+	int display = _numGuess >= _listSize ? _listSize : _numGuess;
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words without \'" << letter << "\' as the " << _place[position] << " letter:\n";
 
@@ -211,46 +218,46 @@ void WordleHelper::rightAt(char letter, int position)
 //---
 // Letter Counting
 
-void WordleHelper::mostCommonLetters(int numLetters)
+void WordleHelper::mostCommonLetters(int listSize)
 {
-	_lC->mostCommonLetters(numLetters);
+	_lC->mostCommonLetters(listSize);
 
 	return;
 }
 
-void WordleHelper::mostCommonLettersAt(int position, int numLetters)
+void WordleHelper::mostCommonLettersAt(int position, int listSize)
 {
-	_lC->mostCommonLettersAt(position, numLetters);
+	_lC->mostCommonLettersAt(position, listSize, _wordLength);
 
 	return;
 }
 
-void WordleHelper::mostCommonLettersAllPos(int numLetters)
+void WordleHelper::mostCommonLettersAllPos(int listSize)
 {
-	_lC->mostCommonLettersAllPos(numLetters);
+	_lC->mostCommonLettersAllPos(listSize, _wordLength);
 
 	return;
 }
 
 //---
 
-void WordleHelper::mostCommonConsonants(int numLetters)
+void WordleHelper::mostCommonConsonants(int listSize)
 {
-	_lC->mostCommonConsonants(numLetters);
+	_lC->mostCommonConsonants(listSize);
 
 	return;
 }
 
-void WordleHelper::mostCommonConsonantsAt(int position, int numLetters)
+void WordleHelper::mostCommonConsonantsAt(int position, int listSize)
 {
-	_lC->mostCommonConsonantsAt(position, numLetters);
+	_lC->mostCommonConsonantsAt(position, listSize, _wordLength);
 
 	return;
 }
 
-void WordleHelper::mostCommonConsonantsAllPos(int numLetters)
+void WordleHelper::mostCommonConsonantsAllPos(int listSize)
 {
-	_lC->mostCommonConsonantsAllPos(numLetters);
+	_lC->mostCommonConsonantsAllPos(listSize, _wordLength);
 
 	return;
 }
@@ -266,14 +273,14 @@ void WordleHelper::mostCommonVowels()
 
 void WordleHelper::mostCommonVowelsAt(int position)
 {
-	_lC->mostCommonVowelsAt(position);
+	_lC->mostCommonVowelsAt(position, _wordLength);
 
 	return;
 }
 
 void WordleHelper::mostCommonVowelsAllPos()
 {
-	_lC->mostCommonVowelsAllPos();
+	_lC->mostCommonVowelsAllPos(_wordLength);
 
 	return;
 }

@@ -10,27 +10,19 @@ int main()
 
 	WordleHelper wH("Wordle List.txt");
 
+	wH.mostCommonLetters();
+	wH.mostCommonLettersAt(99);
+	wH.mostCommonLettersAllPos(11);
+
+	wH.mostCommonConsonants();
+	wH.mostCommonConsonantsAt(99, 3);
+	wH.mostCommonConsonantsAllPos(99);
+
+	wH.mostCommonVowels();
+
 	// Most helpful words: AROSE and UNTIL
 
 	// Guess 1, AROSE
-
-	wH.remove("AS");
-
-	wH.right("ROE");
-
-	wH.removeAt('R', 1);
-	wH.removeAt('O', 2);
-	wH.removeAt('E', 4);
-
-	// Guess 2, RETRO
-
-	wH.remove("T");
-
-	wH.rightAt('R', 0);
-	wH.removeAt('E', 1);
-	wH.rightAt('O', 4);
-
-	// Guess 3, 
 
 	return 0;
 }

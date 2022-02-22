@@ -1,27 +1,29 @@
 #include "LetterCounter.h"
 
-int LetterCounter::_defaultLetterCount = 5;
-
 //---
 // Constructors
 
 LetterCounter::LetterCounter() {}
 
-LetterCounter::LetterCounter(std::vector<ScoredWord> &wordVector)
+LetterCounter::LetterCounter(std::vector<ScoredWord> &wordVector, const int wordLength)
 {
-	parse(wordVector);
+	parse(wordVector, wordLength);
 }
 
 //---
 // Parse new lists of words
 
-void LetterCounter::parse(std::vector<ScoredWord> &wordVector)
+void LetterCounter::parse(std::vector<ScoredWord> &wordVector, const int wordLength)
 {
 	if (_parsed) 
 	{ 
-		mostCommonLetters(); 
+		mostCommonLetters(wordLength);
 		return; 
 	}
+
+	// resize pScore and plc vectors
+	_pScore.resize(wordLength);
+	_plc.resize(wordLength);
 
 	// clear letter counts
 	for (int i = 0; i < 26; ++i)
@@ -30,7 +32,7 @@ void LetterCounter::parse(std::vector<ScoredWord> &wordVector)
 
 		_tlc[i] = newPair;
 
-		for (int j = 0; j < 5; ++j) 
+		for (int j = 0; j < wordLength; ++j)
 		{ 
 			_plc[j][i] = newPair; 
 		
@@ -41,7 +43,7 @@ void LetterCounter::parse(std::vector<ScoredWord> &wordVector)
 	// count letters
 	for (int k = 0; k < (int)wordVector.size(); ++k) 
 	{
-		for (int l = 0; l < 5; ++l)
+		for (int l = 0; l < wordLength; ++l)
 		{
 			int letter = wordVector[k].word[l] - 'A';
 
@@ -62,7 +64,7 @@ void LetterCounter::parse(std::vector<ScoredWord> &wordVector)
 		[](const auto& a, const auto& b) { return a.first > b.first; });
 
 
-	for (int m = 0; m < 5; ++m) 
+	for (int m = 0; m < wordLength; ++m)
 	{
 		std::cout << "- Sorting letters at Position " << m << " -\n";
 
@@ -98,11 +100,11 @@ void LetterCounter::parse(std::vector<ScoredWord> &wordVector)
 	return;
 }
 
-void LetterCounter::parseNewText(std::vector<ScoredWord> &newVector)
+void LetterCounter::parseNewText(std::vector<ScoredWord> &newVector, const int wordLength)
 {
 	_parsed = false;
 
-	parse(newVector);
+	parse(newVector, wordLength);
 
 	return;
 }
@@ -120,12 +122,12 @@ void LetterCounter::setTScore(std::array<int, 26>& tScore)
 //---
 // Letter Count
 
-void LetterCounter::_mcl(const std::array<std::pair<int, char>, 26> &arr, int numLetters)
+void LetterCounter::_mcl(const std::array<std::pair<int, char>, 26> &arr, int listSize)
 {
-	if (numLetters < 0) { numLetters = 5; }
-	if (numLetters > 26) { numLetters = 26; }
+	if (listSize < 0) { listSize = 5; }
+	if (listSize > 26) { listSize = 26; }
 
-	for (int i = 0; i < numLetters; ++i)
+	for (int i = 0; i < listSize; ++i)
 	{
 		std::cout << std::fixed << std::setw(2) << std::setfill('0');
 		std::cout << (i + 1) << ". " << arr[i].second << ": " << arr[i].first << " points\n";
@@ -134,32 +136,32 @@ void LetterCounter::_mcl(const std::array<std::pair<int, char>, 26> &arr, int nu
 	return;
 }
 
-void LetterCounter::mostCommonLetters(int numLetters)
+void LetterCounter::mostCommonLetters(const int listSize)
 {
-	std::cout << "\n" << numLetters << " Most common letters:\n";
+	std::cout << "\n" << listSize << " Most common letters:\n";
 
-	_mcl(_tlc, numLetters);
+	_mcl(_tlc, listSize);
 
 	return;
 }
 
-void LetterCounter::mostCommonLettersAt(int position, int numLetters)
+void LetterCounter::mostCommonLettersAt(int position, const int listSize, const int wordLength)
 {
 	if (position < 0) { position = 0; }
-	if (position > 4) { position = 4; }
+	if (position > wordLength) { position = wordLength - 1; }
 
-	std::cout << "\n" << numLetters << " Most common letters at Position " << position << ":\n";
+	std::cout << "\n" << listSize << " Most common letters at Position " << position << ":\n";
 
-	_mcl(_plc[position], numLetters);
+	_mcl(_plc[position], listSize);
 
 	return;
 }
 
-void LetterCounter::mostCommonLettersAllPos(int numLetters) {
+void LetterCounter::mostCommonLettersAllPos(const int listSize, const int wordLength) {
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < wordLength; ++i)
 	{
-		mostCommonLettersAt(i, numLetters);
+		mostCommonLettersAt(i, listSize, wordLength);
 	}
 
 	return;
@@ -168,14 +170,11 @@ void LetterCounter::mostCommonLettersAllPos(int numLetters) {
 //---
 // Consonant Count
 
-void LetterCounter::_mcc(const std::array<std::pair<int, char>, 26> &arr, int numLetters)
+void LetterCounter::_mcc(const std::array<std::pair<int, char>, 26> &arr, const int listSize)
 {
-	if (numLetters < 0) { numLetters = 5; }
-	if (numLetters > 21) { numLetters = 21; }
-
 	int i = 0, count = 0;
 
-	while (count < numLetters && i < 26) 
+	while (count < listSize && i < 26)
 	{
 		if (_vowels.find(arr[i].second) == std::string::npos) 
 		{
@@ -191,32 +190,41 @@ void LetterCounter::_mcc(const std::array<std::pair<int, char>, 26> &arr, int nu
 	return;
 }
 
-void LetterCounter::mostCommonConsonants(int numLetters)
+void LetterCounter::mostCommonConsonants(int listSize)
 {
-	std::cout << "\n" << numLetters << " Most common consonants:\n";
+	if (listSize < 0) { listSize = 5; }
+	if (listSize > 21) { listSize = 21; }
 
-	_mcc(_tlc, numLetters);
+	std::cout << "\n" << listSize << " Most common consonants:\n";
+
+	_mcc(_tlc, listSize);
 
 	return;
 }
 
-void LetterCounter::mostCommonConsonantsAt(int position, int numLetters)
+void LetterCounter::mostCommonConsonantsAt(int position, int listSize, const int wordLength)
 {
 	if (position < 0) { position = 0; }
-	if (position > 4) { position = 4; }
+	if (position > wordLength) { position = wordLength - 1; }
 
-	std::cout << "\n" << numLetters << " Most common consonants at Position " << position << ":\n";
+	if (listSize < 0) { listSize = 5; }
+	if (listSize > 21) { listSize = 21; }
 
-	_mcc(_plc[position], numLetters);
+	std::cout << "\n" << listSize << " Most common consonants at Position " << position << ":\n";
+
+	_mcc(_plc[position], listSize);
 
 	return;
 }
 
-void LetterCounter::mostCommonConsonantsAllPos(int numLetters) {
+void LetterCounter::mostCommonConsonantsAllPos(int listSize, const int wordLength) 
+{
+	if (listSize < 0) { listSize = 5; }
+	if (listSize > 21) { listSize = 21; }
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < wordLength; ++i)
 	{
-		mostCommonConsonantsAt(i, numLetters);
+		mostCommonConsonantsAt(i, listSize, wordLength);
 	}
 
 	return;
@@ -225,11 +233,11 @@ void LetterCounter::mostCommonConsonantsAllPos(int numLetters) {
 //---
 // Vowel Count
 
-void LetterCounter::_mcv(const std::array<std::pair<int, char>, 26> &arr, int numLetters)
+void LetterCounter::_mcv(const std::array<std::pair<int, char>, 26> &arr, const int listSize)
 {
 	int i = 0, count = 0;
 
-	while (count < numLetters && i < 26) 
+	while (count < listSize && i < 26) 
 	{
 		if (_vowels.find(arr[i].second) != std::string::npos)
 		{
@@ -254,10 +262,10 @@ void LetterCounter::mostCommonVowels()
 	return;
 }
 
-void LetterCounter::mostCommonVowelsAt(int position)
+void LetterCounter::mostCommonVowelsAt(int position, const int wordLength)
 {
 	if (position < 0) { position = 0; }
-	if (position > 4) { position = 4; }
+	if (position > wordLength) { position = wordLength; }
 
 	std::cout << "\nMost common vowels at Position " << position << ":\n";
 
@@ -266,11 +274,11 @@ void LetterCounter::mostCommonVowelsAt(int position)
 	return;
 }
 
-void LetterCounter::mostCommonVowelsAllPos() {
+void LetterCounter::mostCommonVowelsAllPos(const int wordLength) {
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < wordLength; ++i)
 	{
-		mostCommonVowelsAt(i);
+		mostCommonVowelsAt(i, wordLength);
 	}
 
 	return;

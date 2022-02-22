@@ -10,6 +10,10 @@
 class WordleHelper
 {
 private:
+	static int _wordLength;
+
+	static int _listSize;
+
 	bool _isRunning = true;
 
 	// made extensible for wordle clones that might use longer or shorter words
@@ -24,8 +28,6 @@ private:
 	int _dictionarySize = 0; // total number of words
 
 	int _numGuess = 0; // number of words that may still be the answer
-
-	const int _defaultListSize = 10;
 
 	void _scoreAndSort(std::vector<ScoredWord> &v);
 
@@ -71,19 +73,19 @@ public:
 	//---
 	// Letter Counting
 
-	void mostCommonLetters(int numLetters = LetterCounter::DefaultLetterCount());
+	void mostCommonLetters(int listSize = _listSize);
 
-	void mostCommonLettersAt(int position = 0, int numLetters = LetterCounter::DefaultLetterCount());
+	void mostCommonLettersAt(int position = 0, int listSize = _listSize);
 
-	void mostCommonLettersAllPos(int numLetters = LetterCounter::DefaultLetterCount());
+	void mostCommonLettersAllPos(int listSize = _listSize);
 
 	//---
 
-	void mostCommonConsonants(int numLetters = LetterCounter::DefaultLetterCount());
+	void mostCommonConsonants(int listSize = _listSize);
 
-	void mostCommonConsonantsAt(int position, int numLetters = LetterCounter::DefaultLetterCount());
+	void mostCommonConsonantsAt(int position, int listSize = _listSize);
 
-	void mostCommonConsonantsAllPos(int numLetters = LetterCounter::DefaultLetterCount());
+	void mostCommonConsonantsAllPos(int listSize = _listSize);
 
 	//---
 
