@@ -15,15 +15,13 @@ private:
 
 	std::vector<ScoredWord> _words {};
 
-	static std::array<int, 26> _tScore; // total count of letters, used for sorting
+	std::array<int, 26> _tScore{ 0 }; // total count of letters, used for sorting
 
 	int _dictionarySize = 0; // total number of words
 
 	int _numGuess = 0; // number of words that may still be the answer
 
 	const int _defaultListSize = 10;
-
-	static bool tScoreCompare(const ScoredWord &a, const ScoredWord &b);
 
 	void _scoreAndSort(std::vector<ScoredWord> &v);
 

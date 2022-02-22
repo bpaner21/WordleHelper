@@ -13,6 +13,7 @@ int main()
 	// Guess 1, AROSE
 	// Guess 2, UNTIL
 
+	wH.remove("AROSE");
 
 	return 0;
 }
