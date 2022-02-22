@@ -109,28 +109,18 @@ void WordleHelper::reset()
 // remove words with incorrect letters from guess list
 void WordleHelper::remove(const std::string &incorrectLetters)
 {
-	std::vector<std::string> temp{};
-
-	bool validGuess;
-
-	for (std::string g : _guess)
+	for (ScoredWord w : _words)
 	{
-		validGuess = true;
-
 		for (char ch : incorrectLetters)
 		{
-			if (!validGuess) { break; }
-
-			if (g.find(ch) != std::string::npos)
+			if (w.word.find(ch) != std::string::npos)
 			{
-				validGuess = false;
+				w.correct = false;
+
+				break;
 			}
 		}
-
-		if (validGuess) { temp.push_back(g); }
 	}
-
-	_guess = temp;
 
 	int display = _guess.size() >= _defaultListSize ? _defaultListSize : _guess.size();
 

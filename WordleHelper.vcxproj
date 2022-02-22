@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="FileLoader.h" />
     <ClInclude Include="LetterCounter.h" />
+    <ClInclude Include="ScoredWord.h" />
     <ClInclude Include="WordleHelper.h" />
   </ItemGroup>
   <ItemGroup>

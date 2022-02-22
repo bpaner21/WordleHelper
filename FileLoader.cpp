@@ -9,7 +9,7 @@ FileLoader::FileLoader(std::string fileName) : _fileName(fileName) {}
 
 //---
 // Open File
-void FileLoader::wordsFromFile(std::vector<std::string> &words)
+void FileLoader::wordsFromFile(std::vector<ScoredWord> &words)
 {
 	std::ifstream text;
 	text.open(_fileName);
@@ -24,13 +24,13 @@ void FileLoader::wordsFromFile(std::vector<std::string> &words)
 
 		words.clear();
 
-		std::string word;
+		std::string s;
 
 		while (!text.eof())
 		{
-			getline(text, word, ' ');
+			getline(text, s, ' ');
 
-			words.push_back(word);
+			words.push_back(ScoredWord(s));
 		}
 	}
 

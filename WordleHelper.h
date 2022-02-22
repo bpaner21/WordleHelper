@@ -13,13 +13,13 @@ private:
 
 	std::vector<std::string> _input{ "REMOVE", "RIGHT", "RIGHTAT", "RESET", "EXIT" };
 
-	std::vector<std::string> _words {}; // words parsed from input file
-
-	std::vector<std::string> _guess {}; // words that may be the correct answer 
+	std::vector<ScoredWord> _words {};
 
 	static std::array<int, 26> _tScore; // total count of letters, used for sorting
 
-	int _dictionarySize = 0;
+	int _dictionarySize = 0; // total number of words
+
+	int _numGuess = 0; // number of words that may still be the answer
 
 	const int _defaultListSize = 10;
 

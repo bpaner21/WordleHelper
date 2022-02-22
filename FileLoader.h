@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "ScoredWord.h"
 #include <vector>
 #include <fstream>
 #include <iostream>
@@ -18,6 +18,6 @@ protected:
 public:
 	FileLoader(std::string fileName);
 
-	void wordsFromFile(std::vector<std::string> &words); // open input file and write words to string vector
+	void wordsFromFile(std::vector<ScoredWord> &words); // open input file and write words to string vector
 };
 

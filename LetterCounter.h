@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "ScoredWord.h"
 #include <array>
 #include <vector>
 #include <iostream>
