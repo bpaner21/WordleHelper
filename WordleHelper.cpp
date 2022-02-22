@@ -127,7 +127,7 @@ void WordleHelper::remove(const std::string &incorrectLetters)
 
 	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
 
-	std::cout << "\n" << display << " Highest Scoring Words after removing \"" << incorrectLetters << "\":\n";
+	std::cout << "\n" << display << " Highest Scoring Words after removing words with the letters \"" << incorrectLetters << "\":\n";
 
 	_displayRemaining(display);
 
@@ -154,7 +154,7 @@ void WordleHelper::right(const std::string &correctLetters)
 
 	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
 
-	std::cout << "\n" << display << " Highest Scoring Words after removing words without \"" << correctLetters << "\":\n";
+	std::cout << "\n" << display << " Highest Scoring Words after removing words without the letters \"" << correctLetters << "\":\n";
 
 	_displayRemaining(display);
 
@@ -176,7 +176,7 @@ void WordleHelper::removeAt(char letter, int position)
 
 	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
 
-	std::cout << "\n" << display << " Highest Scoring Words after removing words with \'" << letter << "\' at Position " << position << ":\n";
+	std::cout << "\n" << display << " Highest Scoring Words after removing words with \'" << letter << "\' as the " << _place[position] << " letter:\n";
 
 	_displayRemaining(display);
 
@@ -198,7 +198,7 @@ void WordleHelper::rightAt(char letter, int position)
 
 	int display = _numGuess >= _defaultListSize ? _defaultListSize : _numGuess;
 
-	std::cout << "\n" << display << " Highest Scoring Words after removing words without \'" << letter << "\' at Position " << position << ":\n";
+	std::cout << "\n" << display << " Highest Scoring Words after removing words without \'" << letter << "\' as the " << _place[position] << " letter:\n";
 
 	_displayRemaining(display);
 

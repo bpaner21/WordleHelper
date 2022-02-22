@@ -12,6 +12,9 @@ class WordleHelper
 private:
 	bool _isRunning = true;
 
+	// made extensible for wordle clones that might use longer or shorter words
+	std::vector<std::string> _place { "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"};
+
 	std::vector<std::string> _input{ "REMOVE", "RIGHT", "RIGHTAT", "RESET", "EXIT" };
 
 	std::vector<ScoredWord> _words {};

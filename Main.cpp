@@ -10,24 +10,27 @@ int main()
 
 	WordleHelper wH("Wordle List.txt");
 
-	// Guess 1, AROSE
-	// Guess 2, UNTIL
+	// Most helpful words: AROSE and UNTIL
 
-	wH.remove("ASE");
-	
-	wH.right("R");
+	// Guess 1, AROSE
+
+	wH.remove("AS");
+
+	wH.right("ROE");
 
 	wH.removeAt('R', 1);
+	wH.removeAt('O', 2);
+	wH.removeAt('E', 4);
 
-	wH.rightAt('O', 2);
+	// Guess 2, RETRO
 
-	// Guess 2, LOORD
+	wH.remove("T");
 
-	wH.remove("LD");
+	wH.rightAt('R', 0);
+	wH.removeAt('E', 1);
+	wH.rightAt('O', 4);
 
-	wH.rightAt('R', 3);
-
-	// Guess 3, THORN - O
+	// Guess 3, 
 
 	return 0;
 }
