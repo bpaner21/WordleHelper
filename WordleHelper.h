@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <unordered_set>
 
 #include "ScoredWord.h"
 #include "FileLoader.h"
@@ -31,8 +32,6 @@ private:
 
 	void _scoreAndSort(std::vector<ScoredWord> &v);
 
-	void _displayRemaining(int displaySize);
-
 	// loads input file and writes words to string vector 
 	// runs once to set up letter counter and word tracker
 	FileLoader *_fL = nullptr; 
@@ -61,11 +60,13 @@ public:
 
 	void right(const std::string &correctLetters); // remove words without correct letters from guess list
 
-	void removeAt(char letter, int position); // remove words with correct letter at incorrect position
+	void removeAt(int position, char letter); // remove words with correct letter at incorrect position
 
-	void rightAt(char letter, int position); // remove words without correct letter at correct position
+	void rightAt(int position, char letter); // remove words without correct letter at correct position
 
 	void narrow(const std::string &correctLetters); // suggest words without any of the correct letters help find an answer
+
+	void displayRemaining(int displaySize);
 
 	//---
 	// File Loading

@@ -47,10 +47,16 @@ void WordleHelper::_scoreAndSort(std::vector<ScoredWord> &v)
 {
 	for (ScoredWord &s : v)
 	{
+		std::unordered_set<char> uniqueLetters {};
+
 		for (char c : s.word)
 		{
 			s.score += _tScore[c - 'A'];
+			uniqueLetters.emplace(c);
 		}
+
+		// put more weight towards words with more unique letters
+		s.score *= uniqueLetters.size();
 	}
 
 	std::sort(v.begin(), v.end(), [](const ScoredWord& a, const ScoredWord& b) { return a.score > b.score; });
@@ -58,7 +64,7 @@ void WordleHelper::_scoreAndSort(std::vector<ScoredWord> &v)
 	return;
 }
 
-void WordleHelper::_displayRemaining(int displaySize)
+void WordleHelper::displayRemaining(int displaySize)
 {
 	for (int i = 0, j = 0; i < (int)_words.size() && j < displaySize; ++i)
 	{
@@ -136,7 +142,7 @@ void WordleHelper::remove(const std::string &incorrectLetters)
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words with the letters \"" << incorrectLetters << "\":\n";
 
-	_displayRemaining(display);
+	displayRemaining(display);
 
 	return;
 }
@@ -163,13 +169,13 @@ void WordleHelper::right(const std::string &correctLetters)
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words without the letters \"" << correctLetters << "\":\n";
 
-	_displayRemaining(display);
+	displayRemaining(display);
 
 	return;
 }
 
 // remove words with correct letter at incorrect position
-void WordleHelper::removeAt(char letter, int position)
+void WordleHelper::removeAt(int position, char letter)
 {
 	for (ScoredWord &s : _words)
 	{
@@ -185,13 +191,13 @@ void WordleHelper::removeAt(char letter, int position)
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words with \'" << letter << "\' as the " << _place[position] << " letter:\n";
 
-	_displayRemaining(display);
+	displayRemaining(display);
 
 	return;
 }
 
 // remove words without correct letter at correct position
-void WordleHelper::rightAt(char letter, int position)
+void WordleHelper::rightAt(int position, char letter)
 {
 	for (ScoredWord &s : _words)
 	{
@@ -207,7 +213,7 @@ void WordleHelper::rightAt(char letter, int position)
 
 	std::cout << "\n" << display << " Highest Scoring Words after removing words without \'" << letter << "\' as the " << _place[position] << " letter:\n";
 
-	_displayRemaining(display);
+	displayRemaining(display);
 
 	return;
 }
