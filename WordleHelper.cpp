@@ -77,7 +77,9 @@ void WordleHelper::displayRemaining(int displaySize)
 		}
 	}
 
-	std::cout << "\n" << _numGuess << " words remaining.\n";
+	float percent = 100.0 * _numGuess / _dictionarySize;
+
+	printf("\n%d words (%.2f%%) remaining.\n", _numGuess, percent);
 }
 
 void WordleHelper::input()

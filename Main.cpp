@@ -30,20 +30,33 @@ int main()
 
 	// Guess 1, AROSE
 
-	wH.right("OE");			// 1217 words remaining, 9.382%
-	wH.removeAt(2, 'O');	// 1001 words remaining, 7.717%
-	wH.removeAt(4, 'E');	// 746 words remaining, 5.751%
-	wH.remove("ARS");		// 275 words remaining, 2.120%
+	wH.right("O");			// 3911 words (30.15%) remaining.
+	wH.removeAt(2, 'O');	// 2918 words (22.49%) remaining.
+	wH.remove("ARSE");		// 463 words (3.57%) remaining.
 
-	// Guess 2, TELOI
+	// Guess 2, DOILT
 
-	wH.rightAt(1, 'E');		// 59 words remaining, 0.455%
-	wH.rightAt(3, 'O');		// 34 words remaining, 0.262%
-	wH.right("T");			// 14 words remaining, 0.108%
-	wH.removeAt(0, 'T');	// 11 words remaining, 0.085%
-	wH.remove("LI");		// 8 words remaining, 0.062%
+	wH.rightAt(1, 'O');		// 307 words (2.37%) remaining.
+	wH.right("D");			// 63 words (0.49%) remaining.
+	wH.removeAt(0, 'D');	// 40 words (0.31%) remaining.
+	wH.remove("ILT");		// 20 words (0.15%) remaining.
 
-	// Guess 3, DEPOT
+	// Guess 3, POUND
+
+	wH.rightAt(2, 'U');		// 6 words (0.05%) remaining.
+	wH.rightAt(3, 'N');		// 6 words (0.05%) remaining.
+	wH.rightAt(4, 'D');		// 6 words (0.05%) remaining.
+	wH.remove("P");			// 5 words (0.04%) remaining.
+
+	// Guess 4, WHELM
+
+	wH.remove("WHM");		// 2 words (0.02%) remaining.
+
+	// Guess 5, BOUND
+
+	wH.remove("B");			// 1 words (0.01%) remaining.
+
+	// Guess 6, FOUND
 	// Correct
 
 	return 0;
